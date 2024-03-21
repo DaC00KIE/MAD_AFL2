@@ -1,3 +1,6 @@
-print("hello world")
-var newChar = Character()
-print(newChar.name)
+import Foundation
+
+var flow = Flow()
+
+flow.openingScreen()
+print(flow.registerName())
