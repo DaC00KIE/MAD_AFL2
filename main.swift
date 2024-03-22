@@ -1,16 +1,16 @@
 import Foundation
 
-print("before opening")
 openingScreen()
-print("after opening")
 
 let player = Player(registerName())
 player.name = player.name.capitalized
-print("\nNice to meet you, \(player.name)!")
+print("\nNice to meet you, \(player.name)!\n")
 
-journeyScreen()
+journey()
 
+// ^ swift version of psvm i guess
 // --------------------------------------------------
+// v functions 
 
 func openingScreen(){
 
@@ -22,19 +22,7 @@ func openingScreen(){
 
 }
 
-func registerName() -> String{
-  let keepLooping = true
-  while(keepLooping){
-    print("May I know your name, young wizard? ", terminator: "")
-    if let name = readLine(){
-      if isNameValid(name){
-        return name
-      }
-    }
-  }
-}
-
-func journeyScreen(){
+func journey(){
   while(true){
     print("From here you can...")
     print("[C]heck your health and state")
@@ -44,24 +32,29 @@ func journeyScreen(){
     print("[M]ountain of Golem")
     print("[Q]uit game\n")
     print("Your choice? ", terminator: "")
-    
-    if let choice = readLine(){
-      switch choice.uppercased(){
-        case "C":
-        checkState()
-        case "H":
-        healWounds()
-        case "F":
-        battle(stage: 1)
-        case "M":
-        battle(stage: 2)
-        case "Q":
-        print("Thanks for having played!")
-        print("\nPress [return] to exit game: ", terminator: "")
-        returnToContinue()
-        return
-        default:
-        break
+
+    var keepLooping = true
+    while(keepLooping){
+      if let choice = readLine(){
+        keepLooping = false
+        switch choice.uppercased(){
+          case "C":
+          checkState()
+          case "H":
+          healWounds()
+          case "F":
+          battle(stage: 1)
+          case "M":
+          battle(stage: 2)
+          case "Q":
+          print("Thanks for having played!")
+          print("\nPress [return] to exit game: ", terminator: "")
+          returnToContinue()
+          return
+          default:
+          print("Your choice? ", terminator: "")
+          keepLooping = true
+        }
       }
     }
     
@@ -69,25 +62,47 @@ func journeyScreen(){
 }
 
 func checkState(){
-  print("Player name: \(player.name)\n")
-  
-  print("HP: \(player.hp)/ \(player.maxHp)")
-  print("MP: \(player.mp)/ \(player.maxMp)\n")
-
-  print("Magic:")
-  print("- Physical Attack. No mana required. Deal 5pt of damage.")
-  print("- Meteor. Use 50pt of mana. Deal 50pt of damage.")
-  print("- Shield. Use 10pt of mana. Block enemy attack for 1 turn.")
-
-  print("\nItems:")
-  print("- Potion x\(player.potions). Heal 20pt of your HP")
-  print("- Elixir x\(player.elixirs). Add 10pt of your MP\n")
-
-  print("\nPress [return] to go back: ", terminator: "")
+  player.displayState()
+  print("Press [return] to go back: ", terminator: "")
   returnToContinue()
 }
 
 func healWounds(){
+  var looped = false
+
+  while(true){
+    if(!looped){
+      print("\nCurrent Health: \(player.currentHealth())")
+      print("You have \(player.potions) potions.\n")
+    }else{
+      print("\nYour HP is now: \(player.currentHealth())")
+      print("You have \(player.potions) potions left.\n")
+    }
+
+    if(player.potions == 0){
+      print("You don't have any potions to heal your wounds... 😔\n")
+      print("press [return] to continue.", terminator: " ")
+      returnToContinue()
+      return
+    }
+
+    if(!looped){
+      print("Are you sure you want to use a potion to heal your wound? [Y/ N]", terminator:" ")
+    }else{
+      print("Would you like to use another potion to heal your wound again? [Y/ N]", terminator: " ")
+    }
+
+    let willHeal = isYesOrNo()
+
+    // return if wont heal
+    if (!willHeal){
+      print("press [return] to go back: ", terminator: "")
+      returnToContinue()
+      return
+    }
+    player.usePotion()
+    looped = true
+  }
   
 }
 
@@ -105,10 +120,38 @@ func returnToContinue(){
   }
 }
 
-func isNameValid(_ input: String) -> Bool {
+func registerName() -> String{
+  while(true){
+    print("May I know your name, young wizard? ", terminator: "")
+    if let name = readLine(){
+      if isOnlyCharacters(name){
+        print("")
+        return name
+      }
+    }
+  }
+}
+
+func isOnlyCharacters(_ input: String) -> Bool {
     if(input == ""){
       return false
     }
     let characterSet = CharacterSet.letters
     return input.rangeOfCharacter(from: characterSet.inverted) == nil
+}
+
+func isYesOrNo() -> Bool{
+  while keepLooping {
+      guard let input = readLine()?.uppercased() else {
+          continue // Continue looping if there's no input
+      }
+
+      switch input {
+      case "Y", "N":
+          keepLooping = false
+          choice = input // Update choice with the valid input
+      default:
+          break // Ignore other inputs and continue looping
+      }
+  }
 }
