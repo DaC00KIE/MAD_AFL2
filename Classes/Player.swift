@@ -3,7 +3,9 @@ import Foundation
 class Player{
   var name: String
   var hp: Int
+  var maxHp: Int
   var mp: Int
+  var maxMp: Int
   var potions: Int
   var elixirs: Int
   var level: Int
@@ -11,8 +13,10 @@ class Player{
 
   init(_ name: String){
     self.name = name
-    hp = 100
-    mp = 100
+    maxHp = 100
+    hp = maxHp
+    maxMp = 100
+    mp = maxMp
     potions = 10
     elixirs = 5
     level = 1
