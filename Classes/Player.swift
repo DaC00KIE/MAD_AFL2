@@ -3,6 +3,7 @@ import Foundation
 class Player{
   var name: String
   var hp: Int
+  var attack: Int
   var level: Int
   var maxHp: Int
   var money: Int
@@ -10,19 +11,20 @@ class Player{
   var maxMp: Int
   var potions: Int
   var elixirs: Int
-  var level: Int
   var shield: Bool = false
-  var weapon: Weapon = nil
+  var weapon: Weapon = Weapon()
 
   init(_ name: String){
     self.name = name
     maxHp = 100
     hp = maxHp
+    attack = 0
     maxMp = 100
     mp = maxMp
     potions = 10
     elixirs = 5
     level = 1
+    self.money = 500
   }
 
   func currentHealth() -> String{
@@ -36,7 +38,7 @@ class Player{
     print("MP: \(mp)/ \(maxMp)\n")
 
     print("Magic:")
-    print("- Physical Attack. No mana required. Deal 5pt of damage.")
+    print("- Physical Attack. No mana required. Deal \(attack)pt of damage.")
     print("- Meteor. Use 50pt of mana. Deal 50pt of damage.")
     print("- Shield. Use 10pt of mana. Block enemy attack for 1 turn.")
 
@@ -45,10 +47,7 @@ class Player{
     print("- Elixir x\(elixirs). Add 10pt of your MP\n")
   }
  
-  func equip(_ weapon: Weapon? = nil){
-    if(self.weapon != nil){
-      attack -= self.weapon.attack
-    }
+  func equip(_ weapon: Weapon){
     attack += weapon.attack
     self.weapon = weapon
   }

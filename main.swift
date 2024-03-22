@@ -141,15 +141,16 @@ func isOnlyCharacters(_ input: String) -> Bool {
 }
 
 func isYesOrNo() -> Bool{
-  while keepLooping {
+  while true {
       guard let input = readLine()?.uppercased() else {
           continue // Continue looping if there's no input
       }
 
       switch input {
-      case "Y", "N":
-          keepLooping = false
-          choice = input // Update choice with the valid input
+      case "Y":
+        return true
+      case "N":
+        return false
       default:
           break // Ignore other inputs and continue looping
       }
