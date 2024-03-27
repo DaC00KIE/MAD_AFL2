@@ -109,21 +109,39 @@ func healWounds(){
 func battle(stage: Int){
   // battle goes here
   let enemy = enemyGeneration(stage)
-  enemy.displayState()
-  print("...", terminator: "")
-  returnToContinue()
+
+  while(!enemy.isDead && !player.isDead){
+    enemy.displayBattleState()
+    player.displayBattleState()
+    print("Press [return] to Attack or [1] to scan level...", terminator: "")
+    let choice = readLine()
+    print("")
+    if choice == "1"{
+      print("Scanning Enemy Vitals...", terminator: "")
+      let _ = readLine()
+      enemy.scanVitals()
+    }else{
+      enemy.takeDamage(player.getDamage())
+    }
+        
+    if(!enemy.isDead){
+      player.takeDamage(enemy.attack)
+    }
+    
+  }
 }
 
 func enemyGeneration(_ stage: Int) -> Enemy{
   switch stage{
     case 1: //forest of trolls
-    print("Forest of trolls")
+    print("As you enter the forest, you feel a sense of unease wash over you.")
+    print("Suddenly, you hear the sound of twigs snapping behind you. You quickly spin around, and find a Troll emerging from the shadows.\n")
     return Troll(player.level)
     case 2: //mountain of golem
-    print("Mountain of Golems")
+    print("As you make through the rugged mountain terrain, you can feel the chill of the wind biting at your skin.")
+    print("Suddenly, you hear a sound that makes you freeze in your tracks, That's when you see it - a massive, snarling Golem emerging from the shadows.\n")
     return Golem()
     default:
-    print("Where even are you")
     return Enemy()
   }
 }

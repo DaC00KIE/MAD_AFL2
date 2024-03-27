@@ -1,35 +1,32 @@
 import Foundation
 
-class Player{
-  var name: String
-  var hp: Int
-  var attack: Int
-  var level: Int
-  var maxHp: Int
+class Player: Character{
+
   var money: Int
   var mp: Int
   var maxMp: Int
   var potions: Int
   var elixirs: Int
   var shield: Bool = false
-  var weapon: Weapon?
-  var isDead: Bool = false
 
-  init(_ name: String){
-    self.name = name
-    maxHp = 100
-    hp = maxHp
-    attack = 0
-    maxMp = 100
-    mp = maxMp
-    potions = 10
-    elixirs = 5
-    level = 1
+  override init(_ name: String, _ hp: Int, _ attack: Int, _ level: Int){
+    self.money = 500
+    self.maxMp = 100
+    self.mp = self.maxMp
+    self.potions = 10
+    self.elixirs = 5
+    super.init(name, hp, attack, level)
+  }
+
+  convenience init(_ name: String){
+    self.init(name, 100, 100, 1)
     self.money = 500
   }
 
-  func currentHealth() -> String{
-    return String("\(hp)/ \(maxHp)")
+  func displayBattleState(){
+    print("\nPlayer: \(name)")
+    print("HP: \(hp)/ \(maxHp)")
+    print("MP: \(mp)/ \(maxMp)\n")
   }
 
   func displayState(){
@@ -54,14 +51,6 @@ class Player{
     }
     attack += weapon?.attack ?? 0
     self.weapon = weapon
-  }
-
-  func takeDamage(_ damage: Int){
-    hp -= damage
-    if(hp <= 0){
-      hp = 0
-      isDead = true
-    }
   }
 
   func usePotion(){
