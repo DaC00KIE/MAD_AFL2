@@ -2,13 +2,15 @@ import Foundation
 
 class Golem: Enemy{
 
-  override init(_ name: String? = "Unnamed", _ hp: Int? = 1000, _ level: Int? = 1){
+  override init(_ name: String, _ hp: Int, _ level: Int){
     super.init(name, hp, level)
-    self.name = name ?? "Unnamed"
-    self.hp = hp ?? 1000
-    self.level = level ?? 1
+    location = "Mountain of Golems"
   }
 
+  convenience init(){
+    self.init("Unnamed Golem", 1000, 1)
+  }
+  
   override func takeDamage(_ damage: Int){
     hp -= damage/10*9
     if(hp <= 0){
@@ -17,7 +19,8 @@ class Golem: Enemy{
     }
   }
 
-  override func vitalsScanned(){
+  override func scanVitals(){
+    vitalsScanned = true
     print("This golem takes 10% less damage due to natural resistance")
   }
 }

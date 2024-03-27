@@ -12,7 +12,8 @@ class Player{
   var potions: Int
   var elixirs: Int
   var shield: Bool = false
-  var weapon: Weapon = Weapon()
+  var weapon: Weapon?
+  var isDead: Bool = false
 
   init(_ name: String){
     self.name = name
@@ -47,9 +48,20 @@ class Player{
     print("- Elixir x\(elixirs). Add 10pt of your MP\n")
   }
  
-  func equip(_ weapon: Weapon){
-    attack += weapon.attack
+  func equip(_ weapon: Weapon?){
+    if weapon != nil{
+      attack -= self.weapon!.attack
+    }
+    attack += weapon?.attack ?? 0
     self.weapon = weapon
+  }
+
+  func takeDamage(_ damage: Int){
+    hp -= damage
+    if(hp <= 0){
+      hp = 0
+      isDead = true
+    }
   }
 
   func usePotion(){

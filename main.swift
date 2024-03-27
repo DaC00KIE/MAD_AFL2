@@ -107,7 +107,25 @@ func healWounds(){
 }
 
 func battle(stage: Int){
-  
+  // battle goes here
+  let enemy = enemyGeneration(stage)
+  enemy.displayState()
+  print("...", terminator: "")
+  returnToContinue()
+}
+
+func enemyGeneration(_ stage: Int) -> Enemy{
+  switch stage{
+    case 1: //forest of trolls
+    print("Forest of trolls")
+    return Troll(player.level)
+    case 2: //mountain of golem
+    print("Mountain of Golems")
+    return Golem()
+    default:
+    print("Where even are you")
+    return Enemy()
+  }
 }
 
 func returnToContinue(){  
