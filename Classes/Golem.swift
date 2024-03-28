@@ -7,7 +7,7 @@ class Golem: Enemy{
   }
 
   convenience init(){
-    self.init("Unnamed Golem", 1000, 5, 1)
+    self.init("Golem", 1000, 5, 1)
   }
   
   override func takeDamage(_ damage: Int){

@@ -19,6 +19,14 @@ class Troll: Enemy{
     self.init("Troll", 500, 10, Int.random(in: starting_range...end_range))
   }
 
+  override func getDamage() -> Int{
+    let damage = attack + (weapon?.attack ?? 0)
+    if(hp <= maxHp/2){
+      return damage/2*3
+    }
+    return damage
+  }
+
   override func scanVitals(){
     vitalsScanned = true
     print("The troll will deal 1.5x damage when his health goes below 50%")

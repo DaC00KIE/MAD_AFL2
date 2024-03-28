@@ -113,15 +113,32 @@ func battle(stage: Int){
   while(!enemy.isDead && !player.isDead){
     enemy.displayBattleState()
     player.displayBattleState()
-    print("Press [return] to Attack or [1] to scan level...", terminator: "")
-    let choice = readLine()
-    print("")
-    if choice == "1"{
+    print("Choose your action:")
+    print("[1] Physical Attack. No mana required. Deal \()pt of damage.")
+    print("[2] Meteor. Use 50pt of mana. Deal 50pt of damage.")
+    print("[3] Shield. Use 10pt of mana. Block enemy attack for 1 turn.\n")
+
+    print("[4] Use potion to heal wound")
+    print("[5] Scan enemy's vitals")
+    print("[6] Flee from battle\n")
+
+    print("Your Choice: ", terminator: "")
+    
+    switch choice = readLine(){
+      case "1": //physical attack
+      
+      case "2": //meteor
+      print("x")
+      case "3": //shield
+      print("x")
+      case "4": //use potion
+      print("x")
+      case "5": //scan vitals
       print("Scanning Enemy Vitals...", terminator: "")
       let _ = readLine()
       enemy.scanVitals()
-    }else{
-      enemy.takeDamage(player.getDamage())
+      case "6": //flee from battle
+      print("x")
     }
         
     if(!enemy.isDead){

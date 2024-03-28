@@ -20,7 +20,6 @@ class Player: Character{
 
   convenience init(_ name: String){
     self.init(name, 100, 100, 1)
-    self.money = 500
   }
 
   func displayBattleState(){
