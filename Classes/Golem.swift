@@ -10,8 +10,8 @@ class Golem: Enemy{
     self.init("Golem", 1000, 5, 1)
   }
   
-  override func takeDamage(_ damage: Int){
-    hp -= damage/10*9
+  override func takeDamage(_ damage: Damage){
+    hp -= damage.amount/10*9
     print("\(name) took \(damage)pt of damage")
     if(hp <= 0){
       hp = 0

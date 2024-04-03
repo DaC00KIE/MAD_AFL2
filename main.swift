@@ -24,7 +24,7 @@ func openingScreen(){
 
 func journey(){
   while(true){
-    print("From here you can...")
+    print("\nFrom here you can...")
     print("[C]heck your health and state")
     print("[H]eal your wounds with a potion")
     print("\n...or choose to go to...\n")
@@ -114,36 +114,41 @@ func battle(stage: Int){
     enemy.displayBattleState()
     player.displayBattleState()
     print("Choose your action:")
-    print("[1] Physical Attack. No mana required. Deal \()pt of damage.")
-    print("[2] Meteor. Use 50pt of mana. Deal 50pt of damage.")
-    print("[3] Shield. Use 10pt of mana. Block enemy attack for 1 turn.\n")
+    player.displayActions()
 
     print("[4] Use potion to heal wound")
     print("[5] Scan enemy's vitals")
     print("[6] Flee from battle\n")
 
     print("Your Choice: ", terminator: "")
+
+    let choice = readLine()
     
-    switch choice = readLine(){
+    switch choice{
       case "1": //physical attack
-      
+      enemy.takeDamage(player.attack_physical())
       case "2": //meteor
-      print("x")
+      enemy.takeDamage(player.summon_meteor())
       case "3": //shield
-      print("x")
+      player.summon_shield()
       case "4": //use potion
-      print("x")
+      player.usePotion()
       case "5": //scan vitals
       print("Scanning Enemy Vitals...", terminator: "")
       let _ = readLine()
       enemy.scanVitals()
       case "6": //flee from battle
-      print("x")
+      print("Your cowardly self has fled from battle... Press [enter] to continue,")
+      returnToContinue()
+      return
+      default:
+      break
     }
         
     if(!enemy.isDead){
-      player.takeDamage(enemy.attack)
+      player.takeDamage(enemy.getDamage())
     }
+    player.shield = false
     
   }
 }

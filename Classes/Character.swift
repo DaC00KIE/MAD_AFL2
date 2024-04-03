@@ -22,13 +22,14 @@ class Character{
     return String("\(hp)/ \(maxHp)")
   }
 
-  func getDamage() -> Int{
-    return attack + (weapon?.attack ?? 0)
+  func getDamage() -> Damage{
+    let damage = Damage(amount: attack + (weapon?.attack ?? 0), element: .normal)
+    return damage
   }
 
-  func takeDamage(_ damage: Int){
-    hp -= damage
-    print("\(name) took \(damage)pt of damage...", terminator: "")
+  func takeDamage(_ damage: Damage){
+    hp -= damage.amount
+    print("\(name) took [\(damage.element.emoji())] \(damage.amount)pt of damage...", terminator: "")
     let _ = readLine()
     if(hp <= 0){
       hp = 0
@@ -37,4 +38,9 @@ class Character{
     }
   }
   
+}
+
+struct Damage{
+  var amount: Int
+  var element: Element
 }

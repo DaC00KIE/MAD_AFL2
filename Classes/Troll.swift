@@ -19,10 +19,10 @@ class Troll: Enemy{
     self.init("Troll", 500, 10, Int.random(in: starting_range...end_range))
   }
 
-  override func getDamage() -> Int{
-    let damage = attack + (weapon?.attack ?? 0)
+  override func getDamage() -> Damage{
+    var damage = Damage(amount: attack + (weapon?.attack ?? 0), element: .normal)
     if(hp <= maxHp/2){
-      return damage/2*3
+      damage.amount = damage.amount/2*3
     }
     return damage
   }
