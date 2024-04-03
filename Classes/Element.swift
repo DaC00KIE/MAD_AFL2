@@ -3,9 +3,8 @@ enum Element: String, CaseIterable{
   case water = "WATER"
   case grass = "GRASS"
   case normal = "NORMAL"
-  case block = "BLOCK"
 
-  func emoji() -> String{
+  var emoji: String{
       switch self{
         case .fire:
           return "🔥"
@@ -15,9 +14,22 @@ enum Element: String, CaseIterable{
           return "🌱"
         case .normal:
           return "✊"
-        case .block:
-          return "🛡️"
       }
+  }
+
+  static func getRandomElement() -> Element{
+    // 50% chance normal 50% the rest
+    let normal = Int.random(in: 1...2)
+    if normal == 1{
+      return .normal
+    }
+
+    let element = Int.random(in: 1...3)
+    switch element{
+      case 1: return .fire
+      case 2: return .water
+      default: return .grass
+    }
   }
 
 }

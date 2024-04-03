@@ -16,45 +16,40 @@ class Player: Character{
     self.potions = 10
     self.elixirs = 5
     super.init(name, hp, attack, level)
-    self.weapon = Weapon()
+    self.weapon = Weapon(level: 1)
   }
 
   convenience init(_ name: String){
-    self.init(name, 100, 100, 1)
+    self.init(name, 100, 5, 1)
   }
 
-  func attack_physical() -> Damage{
-    let damage = Damage(amount: getDamage().amount, element: .normal)
-    return damage
+  // spells
+  var meteorDamage: Damage{
+    return Damage(amount: 50 + getDamage().amount, element: weapon?.element ?? .normal)
   }
 
-  func summon_meteor() -> Damage{
+  var physicalDamage: Damage{
+    return Damage(amount: getDamage().amount, element: .normal)
+  }
+
+  func castMeteor() -> Damage{
     mp -= 15
-    return spell_meteor()
+    return meteorDamage
   }
 
-  func summon_shield(){
+  func castShield(){
     mp -= 10
-    spell_shield()
-  }
-
-  func spell_meteor() -> Damage{
-    let damage = Damage(amount: 50 + getDamage().amount, element: weapon?.element ?? .normal)
-    return damage
-  }
-
-  func spell_shield(){
     shield = true
   }
 
   override func takeDamage(_ damage: Damage){
     if(shield){
-      print("Your shield absorbed the damage!")
+      print("Your shield absorbed the incoming damage!")
       shield = false
       return
     }
     hp -= damage.amount
-    print("\(name) took [\(damage.element.emoji())] \(damage.amount)pt of damage...", terminator: "")
+    print("\(name) took [\(damage.element.emoji)] \(damage.amount)pt of damage...", terminator: "")
     let _ = readLine()
     if(hp <= 0){
       hp = 0
@@ -63,10 +58,25 @@ class Player: Character{
     }
   }
 
-  func displayActions(){
-    print("- Physical Attack. No mana required. Deal \(getDamage())pt of damage.")
-    print("- Meteor [\(weapon!.element)]. Use 15pt of mana. Deal \(spell_meteor().amount)pt of damage.")
-    print("- Shield. Use 10pt of mana. Block enemy attack for 1 turn.")
+  func displayActions(numbered: Bool){
+    if(numbered){
+      print("[1] ", terminator: "")
+    }else{
+      print("- ", terminator: "")
+    }
+    print("Physical Attack. No mana required. Deal \(getDamage().amount)pt of damage.")
+    if(numbered){
+      print("[1] ", terminator: "")
+    }else{
+      print("- ", terminator: "")
+    }
+    print("Meteor [\(weapon!.element)]. Use 15pt of mana. Deal \(meteorDamage.amount)pt of damage.")
+    if(numbered){
+      print("[1] ", terminator: "")
+    }else{
+      print("- ", terminator: "")
+    }
+    print("Shield. Use 10pt of mana. Block enemy attack for 1 turn.")
   }
 
   func displayBattleState(){
@@ -83,7 +93,7 @@ class Player: Character{
 
     print("Magic:")
 
-    displayActions()
+    displayActions(numbered: false)
 
     print("\nItems:")
     print("- Potion x\(potions). Heal 20pt of your HP")

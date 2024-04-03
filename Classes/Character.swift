@@ -9,6 +9,7 @@ class Character{
   var level: Int
   var isDead: Bool = false
   var weapon: Weapon?
+  var element: Element = .normal
 
   init(_ name: String, _ hp: Int, _ attack: Int, _ level: Int){
     self.name = name
@@ -29,7 +30,7 @@ class Character{
 
   func takeDamage(_ damage: Damage){
     hp -= damage.amount
-    print("\(name) took [\(damage.element.emoji())] \(damage.amount)pt of damage...", terminator: "")
+    print("\(name) took [\(damage.element.emoji)] \(damage.amount)pt of damage...", terminator: "")
     let _ = readLine()
     if(hp <= 0){
       hp = 0

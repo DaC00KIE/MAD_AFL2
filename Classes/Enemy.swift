@@ -3,7 +3,6 @@ import Foundation
 class Enemy: Character{
 
   var vitalsScanned: Bool = false
-  var element: Element = .normal
 
   override init(_ name: String, _ hp: Int, _ attack: Int, _ level: Int){
     super.init(name, hp, attack, level)
@@ -11,7 +10,7 @@ class Enemy: Character{
 
   func displayBattleState(){
     if(vitalsScanned){
-      print("\(name) [\(element.emoji())] Lv. \(level)")
+      print("\(name) [\(element.emoji)] Lv. \(level)")
       print("HP: \(currentHealth())")
     }else{
       print("\(name) [?] Lv. ???")

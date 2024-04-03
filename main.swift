@@ -1,5 +1,9 @@
 import Foundation
 
+for _ in 1...100{
+  
+}
+
 openingScreen()
 
 let player = Player(registerName())
@@ -114,7 +118,7 @@ func battle(stage: Int){
     enemy.displayBattleState()
     player.displayBattleState()
     print("Choose your action:")
-    player.displayActions()
+    player.displayActions(numbered: true)
 
     print("[4] Use potion to heal wound")
     print("[5] Scan enemy's vitals")
@@ -126,11 +130,11 @@ func battle(stage: Int){
     
     switch choice{
       case "1": //physical attack
-      enemy.takeDamage(player.attack_physical())
+      enemy.takeDamage(player.physicalDamage)
       case "2": //meteor
-      enemy.takeDamage(player.summon_meteor())
+      enemy.takeDamage(player.castMeteor())
       case "3": //shield
-      player.summon_shield()
+      player.castShield()
       case "4": //use potion
       player.usePotion()
       case "5": //scan vitals
