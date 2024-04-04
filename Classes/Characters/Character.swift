@@ -18,7 +18,7 @@ class Character{
     self.attack = attack
     self.level = level
   }
-  
+
   func currentHealth() -> String{
     return String("\(hp)/ \(maxHp)")
   }
@@ -38,7 +38,7 @@ class Character{
       print("\(name) has died!")
     }
   }
-  
+
 }
 
 struct Damage{

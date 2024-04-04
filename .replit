@@ -1,6 +1,6 @@
 entrypoint = "main.swift"
 
-compile = "swiftc -o main main.swift ./Classes/*.swift"
+compile = "swiftc -o main main.swift ./Classes/*.swift ./Classes/*/*.swift"
 run = "./main" 
 modules = ["swift"]
 

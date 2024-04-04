@@ -78,6 +78,27 @@ struct Weapon{
     self.level = Int.random(in: levelStartRange...levelEndRange)
   }
 
+  static func generateRandom(playerLevel: Int) -> Weapon{
+    return self.init(randomizedAround: playerLevel)
+  }
+
+  static func generateType(_ element: Element, playerLevel: Int) -> Weapon{
+    
+    var weapon = self.init(randomizedAround: playerLevel)
+    switch element{
+      case .fire:
+      weapon.element = .fire
+      case .water:
+      weapon.element = .water
+      case .grass:
+      weapon.element = .grass
+      default:
+      weapon.element = .normal
+    }
+
+    return weapon
+  }
+
 }
 
 enum Rarity: String, CaseIterable{

@@ -1,7 +1,8 @@
 import Foundation
 
 for _ in 1...100{
-  
+  let weapon = Weapon.generateType(.water, playerLevel: 5)
+  print("\(weapon.coloredName) \(weapon.rarity.coloredSymbol) Lv. \(weapon.level) ATK: \(weapon.attack) COST: \(weapon.price)")
 }
 
 openingScreen()
