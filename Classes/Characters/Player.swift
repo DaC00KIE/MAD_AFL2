@@ -2,34 +2,84 @@ import Foundation
 
 class Player: Character{
 
-  var money: Int
+  var gold: Int
   var mp: Int
   var maxMp: Int
   var potions: Int
   var elixirs: Int
   var shield: Bool = false
+  var xpNeeded: Int
+  var xp: Int
 
   override init(_ name: String, _ hp: Int, _ attack: Int, _ level: Int){
-    self.money = 500
+    self.gold = 100
     self.maxMp = 100
     self.mp = self.maxMp
     self.potions = 10
     self.elixirs = 5
+    self.xpNeeded = 1
+    self.xp = 0
     super.init(name, hp, attack, level)
     self.weapon = Weapon(level: 1)
+    
   }
 
   convenience init(_ name: String){
     self.init(name, 100, 5, 1)
   }
 
+  func gainXp(_ xp: Int){
+    self.xp += xp
+    print("+\(xp) XP!")
+    while xp >= xpNeeded {
+      self.xp -= xpNeeded
+      levelUp()
+    }
+  }
+
+  func gainGold(enemyLevel: Int){
+    let goldGain = 20 + (enemyLevel*10)
+    self.gold += goldGain
+    print("+\(goldGain) Gold!")
+  }
+
+  func gainLoot(enemy: Enemy){
+    let chance = Int.random(in: 1...100)
+
+    if chance <= 25+enemy.level{
+      
+      print("Wow! You've discovered a ]!")
+    }
+    
+  }
+
+  func defeatedEnemy(enemy: Enemy){
+    print("You've defeated a Lv. \(enemy.level) \(enemy.name) [\(enemy.element.emoji)]!\n")
+    gainXp(enemy.level)
+    gainGold(enemyLevel: enemy.level)
+    gainLoot(enemy: enemy)
+    
+  }
+
+  func levelUp(){
+    level += 1
+    attack += 2
+    hp += 5
+    maxHp += 5
+    xpNeeded += 1
+
+    print("\nYou've leveled up! You are now level \(level)")
+    print("Attack +2\nHealth +5\n")
+    print("XP: \(xp)/ \(xpNeeded)")
+  }
+
   // spells
   var meteorDamage: Damage{
-    return Damage(amount: 50 + getDamage().amount, element: weapon?.element ?? .normal)
+    return Damage(rawAmount: 50 + getDamage().rawAmount, element: weapon?.element ?? .normal)
   }
 
   var physicalDamage: Damage{
-    return Damage(amount: getDamage().amount, element: .normal)
+    return Damage(rawAmount: getDamage().rawAmount, element: .normal)
   }
 
   func castMeteor() -> Damage{
@@ -108,12 +158,5 @@ class Player: Character{
     self.weapon = weapon
   }
 
-  func usePotion(){
-    potions -= 1
-    hp += 20
-    if hp >= maxHp{
-      hp = maxHp
-    }
-  }
-
 }
+

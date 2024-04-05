@@ -82,9 +82,9 @@ struct Weapon{
     return self.init(randomizedAround: playerLevel)
   }
 
-  static func generateType(_ element: Element, playerLevel: Int) -> Weapon{
+  static func generateType(_ element: Element, level: Int) -> Weapon{
     
-    var weapon = self.init(randomizedAround: playerLevel)
+    var weapon = self.init(randomizedAround: level)
     switch element{
       case .fire:
       weapon.element = .fire

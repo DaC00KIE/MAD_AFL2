@@ -20,9 +20,9 @@ class Troll: Enemy{
   }
 
   override func getDamage() -> Damage{
-    var damage = Damage(amount: attack + (weapon?.attack ?? 0), element: .normal)
+    var damage = Damage(rawAmount: Double(attack + (weapon?.attack ?? 0)), element: .normal)
     if(hp <= maxHp/2){
-      damage.amount = damage.amount/2*3
+      damage.rawAmount = damage.rawAmount * 1.5
     }
     return damage
   }

@@ -17,6 +17,37 @@ enum Element: String, CaseIterable{
       }
   }
 
+  static func getDamageMultiplier(dealer: Element, target: Element) -> Double{
+    var multiplier = 1.0
+    switch dealer{
+      case .fire:
+      if target == .water{
+        multiplier = 0.75
+      }
+      if target == .grass{
+        multiplier = 1.5
+      }
+      case .water:
+      if target == .grass{
+        multiplier = 0.75
+      }
+      if target == .fire{
+        multiplier = 1.5
+      }
+      case .grass:
+      if target == .fire{
+        multiplier = 0.75
+      }
+      if target == .water{
+        multiplier = 1.5
+      }
+      default:
+      multiplier = 1.0
+    }
+
+    return multiplier
+  }
+
   static func getRandomElement() -> Element{
     // 50% chance normal 50% the rest
     let normal = Int.random(in: 1...2)

@@ -1,9 +1,7 @@
 import Foundation
 
-for _ in 1...100{
-  let weapon = Weapon.generateType(.water, playerLevel: 5)
-  print("\(weapon.coloredName) \(weapon.rarity.coloredSymbol) Lv. \(weapon.level) ATK: \(weapon.attack) COST: \(weapon.price)")
-}
+let weapon = Weapon(randomizedAround:1)
+print("\(weapon.coloredName)")
 
 openingScreen()
 
@@ -105,7 +103,10 @@ func healWounds(){
       returnToContinue()
       return
     }
-    player.usePotion()
+
+    let potion = Potion()
+    potion.use(on: player)
+    
     looped = true
   }
   
@@ -137,7 +138,8 @@ func battle(stage: Int){
       case "3": //shield
       player.castShield()
       case "4": //use potion
-      player.usePotion()
+      let potion = Potion()
+      potion.use(on: player)
       case "5": //scan vitals
       print("Scanning Enemy Vitals...", terminator: "")
       let _ = readLine()

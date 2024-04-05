@@ -11,7 +11,8 @@ class Golem: Enemy{
   }
   
   override func takeDamage(_ damage: Damage){
-    hp -= damage.amount/10*9
+    let reducedDamage = Int(damage.rawAmount*0.9)
+    hp -= reducedDamage
     print("\(name) took \(damage)pt of damage")
     if(hp <= 0){
       hp = 0

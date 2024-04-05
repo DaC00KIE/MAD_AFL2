@@ -6,6 +6,7 @@ class Enemy: Character{
 
   override init(_ name: String, _ hp: Int, _ attack: Int, _ level: Int){
     super.init(name, hp, attack, level)
+    self.element = Element.getRandomElement()
   }
 
   func displayBattleState(){
