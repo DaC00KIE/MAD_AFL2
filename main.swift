@@ -1,5 +1,11 @@
 import Foundation
 
+// for _ in 1...100{
+//   let weapon = Weapon.generateRandom(level: 10)
+//   weapon.printName()
+//   print("")
+// }
+
 openingScreen()
 
 let player = Player(registerName())
