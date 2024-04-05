@@ -17,7 +17,10 @@ class Enemy: Character{
       print("\(name) [?] Lv. ???")
       print("HP: ???/ ???")
     }
-    
+  }
+
+  func levelUp(){
+    level += 1
   }
 
   convenience init(){

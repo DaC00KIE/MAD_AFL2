@@ -21,6 +21,20 @@ class Troll: Enemy{
     self.element = Element.getRandomElement()
   }
 
+  override func levelUp(){
+    self.attack += 5
+    self.hp += 10
+    self.maxHp += 10
+  }
+
+  static func generateNew(playerLevel: Int) -> Enemy{
+    let enemy = Troll(playerLevel)
+    for _ in 1...enemy.level{
+      enemy.levelUp()
+    }
+    return enemy
+  }
+
   override func getDamage() -> Damage{
     var damage = Damage(rawAmount: Double(attack + weapon.attack), element: self.element)
     if(hp <= maxHp/2){

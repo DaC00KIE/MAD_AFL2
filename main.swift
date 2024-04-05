@@ -263,11 +263,11 @@ func enemyGeneration(_ stage: Int) -> Enemy{
     case 1: //forest of trolls
     print("As you enter the forest, you feel a sense of unease wash over you.")
     print("Suddenly, you hear the sound of twigs snapping behind you. You quickly spin around, and find a Troll emerging from the shadows.\n")
-    return Troll(player.level)
+    return Troll.generateNew(playerLevel: player.level)
     case 2: //mountain of golem
     print("As you make through the rugged mountain terrain, you can feel the chill of the wind biting at your skin.")
     print("Suddenly, you hear a sound that makes you freeze in your tracks, That's when you see it - a massive, snarling Golem emerging from the shadows.\n")
-    return Golem(player.level)
+    return Golem.generateNew(playerLevel: player.level)
     default:
     return Enemy()
   }

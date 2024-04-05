@@ -19,6 +19,21 @@ class Golem: Enemy{
     self.init("Golem", 600, 5, Int.random(in: starting_range...end_range))
     self.element = Element.getRandomElement()
   }
+
+  override func levelUp(){
+    self.level += 1
+    self.attack += 3
+    self.hp += 20
+    self.maxHp += 20
+  }
+
+  static func generateNew(playerLevel: Int) -> Enemy{
+    let enemy = Golem(playerLevel)
+    for _ in 1...enemy.level{
+      enemy.levelUp()
+    }
+    return enemy
+  }
   
   override func takeDamage(_ damage: Damage){
     if damage.amount == 0{
