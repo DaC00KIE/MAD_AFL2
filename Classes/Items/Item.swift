@@ -7,7 +7,7 @@ class Item: ItemProtocol{
     self.name = name
   }
 
-  func use(){
-    print("This item cannot be used")
+  func use(on player: Player){
+    
   }
 }

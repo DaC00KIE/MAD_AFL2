@@ -12,7 +12,8 @@ class Potion: Item{
 
   override func use(on player: Player){
     player.potions -= 1
-    player.hp += 20
+    let healAmount = Double(player.maxHp)*0.2
+    player.hp += Int(healAmount)
     if player.hp >= player.maxHp{
       player.hp = player.maxHp
     }

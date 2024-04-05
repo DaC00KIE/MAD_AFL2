@@ -17,9 +17,9 @@ enum Element: String, CaseIterable{
       }
   }
 
-  static func getDamageMultiplier(dealer: Element, target: Element) -> Double{
+  static func getDamageMultiplier(damage: Element, target: Element) -> Double{
     var multiplier = 1.0
-    switch dealer{
+    switch damage{
       case .fire:
       if target == .water{
         multiplier = 0.75

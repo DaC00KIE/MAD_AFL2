@@ -1,8 +1,5 @@
 import Foundation
 
-let weapon = Weapon(randomizedAround:1)
-print("\(weapon.coloredName)")
-
 openingScreen()
 
 let player = Player(registerName())
@@ -30,6 +27,8 @@ func journey(){
     print("\nFrom here you can...")
     print("[C]heck your health and state")
     print("[H]eal your wounds with a potion")
+    print("[R]eplenish your mana with an elixir")
+    print("[O]pen a Weapon Box to get a new Weapon")
     print("\n...or choose to go to...\n")
     print("[F]orest of Troll")
     print("[M]ountain of Golem")
@@ -45,6 +44,10 @@ func journey(){
           checkState()
           case "H":
           healWounds()
+          case "R":
+          drinkElixir()
+          case "O":
+          gachaWeapon()
           case "F":
           battle(stage: 1)
           case "M":
@@ -112,6 +115,86 @@ func healWounds(){
   
 }
 
+func drinkElixir(){
+  var looped = false
+
+  while(true){
+    if(!looped){
+      print("\nCurrent Mana: \(player.currentMana())")
+      print("You have \(player.elixirs) elixits.\n")
+    }else{
+      print("\nYour MP is now: \(player.currentMana())")
+      print("You have \(player.elixirs) elixirs left.\n")
+    }
+
+    if(player.elixirs == 0){
+      print("You don't have any elixirs to replenish your mana... 😔\n")
+      print("press [return] to continue.", terminator: " ")
+      returnToContinue()
+      return
+    }
+
+    if(!looped){
+      print("Are you sure you want to use a elixir to replenish your mana? [Y/ N]", terminator:" ")
+    }else{
+      print("Would you like to use another elixir to replenish your mana again? [Y/ N]", terminator: " ")
+    }
+
+    let willReplenish = isYesOrNo()
+
+    // return if wont heal
+    if (!willReplenish){
+      print("press [return] to go back: ", terminator: "")
+      returnToContinue()
+      return
+    }
+
+    let elixir = Elixir()
+    elixir.use(on: player)
+
+    looped = true
+  }
+
+}
+
+func gachaWeapon(){
+  var looped = false
+
+  while(true){
+    print("\nWeapon Boxes Owned: \(player.weaponBox)")
+    if(player.weaponBox == 0){
+      print("You don't have any Weapon Boxes to open... 😔\n")
+      print("press [return] to continue.", terminator: " ")
+      returnToContinue()
+      return
+    }
+
+    if(!looped){
+      print("Are you sure you want to open a Weapon Box? [Y/ N]", terminator:" ")
+    }else{
+      print("Would you like to open another Weapon Box? [Y/ N]", terminator: " ")
+    }
+
+    let openBox = isYesOrNo()
+    print("\n")
+
+    // return if wont heal
+    if (!openBox){
+      print("press [return] to go back: ", terminator: "")
+      returnToContinue()
+      return
+    }
+
+    let weaponBox = WeaponBox()
+    weaponBox.use(on: player)
+
+    print("")
+
+    looped = true
+  }
+
+}
+
 func battle(stage: Int){
   // battle goes here
   let enemy = enemyGeneration(stage)
@@ -123,8 +206,9 @@ func battle(stage: Int){
     player.displayActions(numbered: true)
 
     print("[4] Use potion to heal wound")
-    print("[5] Scan enemy's vitals")
-    print("[6] Flee from battle\n")
+    print("[5] Use elixir to replenish mana")
+    print("[6] Scan enemy's vitals")
+    print("[7] Flee from battle\n")
 
     print("Your Choice: ", terminator: "")
 
@@ -138,14 +222,15 @@ func battle(stage: Int){
       case "3": //shield
       player.castShield()
       case "4": //use potion
-      let potion = Potion()
-      potion.use(on: player)
-      case "5": //scan vitals
+      healWounds()
+      case "5":
+      drinkElixir()
+      case "6": //scan vitals
       print("Scanning Enemy Vitals...", terminator: "")
       let _ = readLine()
       enemy.scanVitals()
-      case "6": //flee from battle
-      print("Your cowardly self has fled from battle... Press [enter] to continue,")
+      case "7": //flee from battle
+      print("You have esccaped from battle... Press [enter] to continue,")
       returnToContinue()
       return
       default:
@@ -158,6 +243,19 @@ func battle(stage: Int){
     player.shield = false
     
   }
+
+  if(enemy.isDead){
+    player.defeatedEnemy(enemy)
+  }
+  player.hp += Int(Double(player.maxHp)*0.2)
+  if player.hp >= player.maxHp{
+    player.hp = player.maxHp
+  }
+  player.mp += Int(Double(player.maxMp)*0.2)
+  if player.mp >= player.maxMp{
+    player.mp = player.maxMp
+  }
+  print("You've healed 20% of your health and mana back")
 }
 
 func enemyGeneration(_ stage: Int) -> Enemy{
@@ -169,7 +267,7 @@ func enemyGeneration(_ stage: Int) -> Enemy{
     case 2: //mountain of golem
     print("As you make through the rugged mountain terrain, you can feel the chill of the wind biting at your skin.")
     print("Suddenly, you hear a sound that makes you freeze in your tracks, That's when you see it - a massive, snarling Golem emerging from the shadows.\n")
-    return Golem()
+    return Golem(player.level)
     default:
     return Enemy()
   }

@@ -24,29 +24,7 @@ struct Weapon{
     return name + self.name + "\u{001B}[0;0m"
   }
   var level: Int
-  var attack: Int{
-    var attackStartRange = 0
-    var attackEndRange = 0
-    switch rarity{
-      case .common:
-        attackStartRange = 1
-        attackEndRange = 5
-      case .uncommon:
-        attackStartRange = 6
-        attackEndRange = 10
-      case .rare: 
-        attackStartRange = 11
-        attackEndRange = 15
-      case .epic: 
-        attackStartRange = 16
-        attackEndRange = 25
-      case .legendary: 
-        attackStartRange += 25 
-        attackEndRange += 40
-    }
-
-    return Int.random(in: attackStartRange...attackEndRange) + (level*3)
-  }
+  var attack: Int
   var element: Element = Element.getRandomElement()
   var rarity: Rarity = Rarity.getRandomRarity()
   
@@ -67,8 +45,10 @@ struct Weapon{
 
   init(level: Int){
     self.level = level
+    self.element = .normal
+    self.rarity = .common
+    self.attack = 5
   }
-
   init(randomizedAround: Int){
     var levelStartRange = randomizedAround-5
     if levelStartRange <= 1{
@@ -76,29 +56,61 @@ struct Weapon{
     }
     let levelEndRange = randomizedAround+5
     self.level = Int.random(in: levelStartRange...levelEndRange)
-  }
-
-  static func generateRandom(playerLevel: Int) -> Weapon{
-    return self.init(randomizedAround: playerLevel)
-  }
-
-  static func generateType(_ element: Element, level: Int) -> Weapon{
-    
-    var weapon = self.init(randomizedAround: level)
-    switch element{
-      case .fire:
-      weapon.element = .fire
-      case .water:
-      weapon.element = .water
-      case .grass:
-      weapon.element = .grass
-      default:
-      weapon.element = .normal
+    var attackStartRange = 0
+    var attackEndRange = 0
+    switch self.rarity{
+      case .common:
+        attackStartRange = 1
+        attackEndRange = 5
+      case .uncommon:
+        attackStartRange = 6
+        attackEndRange = 10
+      case .rare: 
+        attackStartRange = 11
+        attackEndRange = 15
+      case .epic: 
+        attackStartRange = 16
+        attackEndRange = 25
+      case .legendary: 
+        attackStartRange += 25 
+        attackEndRange += 40     
     }
+    self.attack = Int.random(in: attackStartRange...attackEndRange) + (level*3)
+  }
 
+  func printName(){
+    print("\(element.emoji) \(coloredName) \(rarity.coloredSymbol) Lv. \(level)", terminator: "")
+  }
+
+  static func generateRandom(level: Int) -> Weapon{
+    var weapon = self.init(randomizedAround: level)
+    weapon.setAttack()
     return weapon
   }
 
+  mutating func setAttack(){
+    var attackStartRange = 0
+    var attackEndRange = 0
+    switch rarity{
+      case .common:
+        attackStartRange = 1
+        attackEndRange = 5
+      case .uncommon:
+        attackStartRange = 6
+        attackEndRange = 10
+      case .rare: 
+        attackStartRange = 11
+        attackEndRange = 15
+      case .epic: 
+        attackStartRange = 16
+        attackEndRange = 25
+      case .legendary: 
+        attackStartRange += 25 
+        attackEndRange += 40     
+
+    self.attack = Int.random(in: attackStartRange...attackEndRange) + (level*3)
+    }
+  }
 }
 
 enum Rarity: String, CaseIterable{
@@ -129,13 +141,13 @@ enum Rarity: String, CaseIterable{
   static func getRandomRarity() -> Rarity{
     let chance = Int.random(in: 1...100)
 
-    if chance <= 3{
+    if chance <= 10{
       return .legendary
-    }else if chance <= 10{
-      return .epic
     }else if chance <= 25{
+      return .epic
+    }else if chance <= 40{
       return .rare
-    }else if chance <= 50{
+    }else if chance <= 65{
       return .uncommon
     }else{
       return .common

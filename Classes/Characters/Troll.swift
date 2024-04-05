@@ -7,7 +7,8 @@ class Troll: Enemy{
   }
 
   convenience init(){
-    self.init("Troll", 500, 10, 1)
+    self.init("Troll", 300, 10, 1)
+    self.element = Element.getRandomElement()
   }
 
   convenience init(_ level: Int){
@@ -16,11 +17,12 @@ class Troll: Enemy{
       starting_range = 1
     }
     let end_range = level + 2
-    self.init("Troll", 500, 10, Int.random(in: starting_range...end_range))
+    self.init("Troll", 300, 10, Int.random(in: starting_range...end_range))
+    self.element = Element.getRandomElement()
   }
 
   override func getDamage() -> Damage{
-    var damage = Damage(rawAmount: Double(attack + (weapon?.attack ?? 0)), element: .normal)
+    var damage = Damage(rawAmount: Double(attack + weapon.attack), element: self.element)
     if(hp <= maxHp/2){
       damage.rawAmount = damage.rawAmount * 1.5
     }

@@ -3,5 +3,5 @@ import Foundation
 protocol ItemProtocol{
   var name: String{get}
 
-  func use()
+  func use(on player: Player)
 }

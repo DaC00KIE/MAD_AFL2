@@ -7,13 +7,30 @@ class Golem: Enemy{
   }
 
   convenience init(){
-    self.init("Golem", 1000, 5, 1)
+    self.init("Golem", 600, 5, 1)
+  }
+
+  convenience init(_ level: Int){
+    var starting_range = level - 2
+    if starting_range <= 0{
+      starting_range = 1
+    }
+    let end_range = level + 2
+    self.init("Golem", 600, 5, Int.random(in: starting_range...end_range))
+    self.element = Element.getRandomElement()
   }
   
   override func takeDamage(_ damage: Damage){
-    let reducedDamage = Int(damage.rawAmount*0.9)
-    hp -= reducedDamage
-    print("\(name) took \(damage)pt of damage")
+    if damage.amount == 0{
+      print("")
+      return
+    }
+    let damageMultiplier = Element.getDamageMultiplier(damage: damage.element, target: self.element)
+
+    let modifiedDamage = Int(damage.rawAmount * damageMultiplier * 0.9)
+    hp -= modifiedDamage
+    
+    print("\(name) took [\(damage.element.emoji)] \(modifiedDamage)pt of damage")
     if(hp <= 0){
       hp = 0
       isDead = true
