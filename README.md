@@ -1,0 +1,33 @@
+I added a good few more features such as:
+- Different Elements:
+  - Enemy and Weapons have elements
+  - They can spawn at a possibility of 50% normal; or 50% elemental
+  - There are 3 elements: Fire, Water, Grass
+  - There is a type chart of Water -> Fire -> Grass -> Water
+  - If stronger deal 1.25x damage; if weaker deal 0.75x damage
+- No shop
+- When kill enemy:
+  - Get 1 potion
+  - Get 1 elixir
+  - 25% chance to get a weapon box
+  - Get XP based on enemy Level (example: enemy level 5 will give 5 xp)
+ - After battle always replenish 20% mana and health
+ - Level up gives +1 level, +2 attack, +5 hp
+ - Weapon [<- Main Addition]
+   - Has rarity from common, uncommon, rare, epic, to legendary
+   - They give different range of attack
+   - There are 3 elements
+   - They effect the meteor element
+   - Can only be got from Weapon Box
+ - Weapon Box [<- Main Addition]
+   - gives a random weapon based on player level
+   - Can be 5 levels lower or 5 levels higher than player
+   - Weapons have different element and rarities
+   - Different rarities give stronger stat buff
+   - Level also give different stat buffs
+- Player starts with lv. 1 Common Normal Wand and 3 Weapon Boxes
+- Enemy has ??? level, health, and type until the are scanned
+  - If scan, you can find out all that and certain species traits
+    - Golems take 10% damage in general
+    - Trolls deal 1.5x damage when health is less than half
+    - Enemies spawn at a range of 2 levels weaker or stronger than the player
